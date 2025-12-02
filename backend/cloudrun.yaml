@@ -1,0 +1,23 @@
+# cloudrun.yaml - sample Cloud Run service manifest
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: wellnessbuddy-backend
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/PROJECT_ID/wellnessbuddy-backend:latest
+          env:
+            - name: GOOGLE_CLOUD_PROJECT
+              value: "PROJECT_ID"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/secrets/key.json"
+            - name: WELLNESS_MEMORY_PATH
+              value: "/data/backend_memory.json"
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+      serviceAccountName: YOUR_CLOUD_RUN_SA
